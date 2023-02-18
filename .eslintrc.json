@@ -11,17 +11,20 @@
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended",
     "airbnb",
+    "airbnb-typescript",
     "prettier"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "jsx": true,
     "ecmaVersion": "latest",
-    "sourceType": "module"
+    "sourceType": "module",
+    "project": "./tsconfig.json"
   },
   "plugins": [
     "react",
     "prettier",
+    "import",
     "@typescript-eslint/eslint-plugin"
   ],
   "rules": {
@@ -29,8 +32,6 @@
     "react/react-in-jsx-scope": "off",
     "react/jsx-props-no-spreading": "off",
     "react/forbid-prop-types": "off",
-    // defaultProps rule to be deprecated on function components
-    // https://github.com/reactjs/rfcs/pull/107
     "react/require-default-props": [
       "error",
       {
@@ -44,7 +45,8 @@
           ".tsx"
         ]
       }
-    ]
+    ],
+    "import/no-extraneous-dependencies": ["off"]
   },
   "settings": {
     "import/parsers": {
