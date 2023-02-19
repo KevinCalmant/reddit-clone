@@ -13,6 +13,7 @@ import OAuthButtons from "@/components/Modal/Auth/OAuthButtons";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase/clientApp";
 import { useEffect } from "react";
+import ResetPassword from "@/components/Modal/Auth/ResetPassword";
 
 export default function AuthModal() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -48,12 +49,17 @@ export default function AuthModal() {
           pb={6}
         >
           <Flex direction="column" align="center" justify="center" width="70%">
-            <OAuthButtons />
-            <Text color="gray.500" fontWeight={700}>
-              OR
-            </Text>
-            <AuthInputs />
-            {/* <ResetPassword /> */}
+            {modalState.view === "login" || modalState.view === "signup" ? (
+              <>
+                <OAuthButtons />
+                <Text color="gray.500" fontWeight={700}>
+                  OR
+                </Text>
+                <AuthInputs />
+              </>
+            ) : (
+              <ResetPassword />
+            )}
           </Flex>
         </ModalBody>
       </ModalContent>
