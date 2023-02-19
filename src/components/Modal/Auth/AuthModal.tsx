@@ -10,8 +10,13 @@ import { useRecoilState } from "recoil";
 import { authModalState } from "@/atoms/authModalState";
 import AuthInputs from "@/components/Modal/Auth/AuthInputs";
 import OAuthButtons from "@/components/Modal/Auth/OAuthButtons";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "@/firebase/clientApp";
+import { useEffect } from "react";
 
 export default function AuthModal() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [user, loading, error] = useAuthState(auth);
   const [modalState, setModalState] = useRecoilState(authModalState);
 
   const handleClose = () => {
@@ -20,6 +25,10 @@ export default function AuthModal() {
       open: false,
     }));
   };
+
+  useEffect(() => {
+    if (user) handleClose();
+  }, [user]);
 
   return (
     <Modal isOpen={modalState.open} onClose={handleClose}>

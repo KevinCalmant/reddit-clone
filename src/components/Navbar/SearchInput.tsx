@@ -13,7 +13,6 @@ export default function SearchInput() {
           placeholder="Search Reddit"
           height="34px"
           fontSize="10pt"
-          borderRadius="1.25em"
           backgroundColor="gray.50"
           _placeholder={{ color: "gray.500" }}
           _hover={{
