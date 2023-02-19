@@ -1,7 +1,7 @@
 import { Flex, Input, InputGroup, InputLeftElement } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 
-function SearchInput() {
+export default function SearchInput() {
   return (
     <Flex grow={1} mr={2} align="center">
       <InputGroup>
@@ -31,5 +31,3 @@ function SearchInput() {
     </Flex>
   );
 }
-
-export default SearchInput;

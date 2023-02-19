@@ -1,7 +1,8 @@
 import { Flex, Image } from "@chakra-ui/react";
 import SearchInput from "@/components/Navbar/SearchInput";
+import RightContent from "@/components/Navbar/RightContent/RightContent";
 
-function Navbar() {
+export default function Navbar() {
   return (
     <Flex bg="white" height="44px" padding="6px 12px">
       <Flex align="center">
@@ -12,9 +13,9 @@ function Navbar() {
           display={{ base: "none", md: "unset" }}
         />
       </Flex>
+      {/* <Directory /> */}
       <SearchInput />
+      <RightContent />
     </Flex>
   );
 }
-
-export default Navbar;

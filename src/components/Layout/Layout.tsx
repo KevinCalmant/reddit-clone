@@ -1,6 +1,6 @@
 import Navbar from "@/components/Navbar/Navbar";
 
-function Layout({ children }: { children: JSX.Element }) {
+export default function Layout({ children }: { children: JSX.Element }) {
   return (
     <>
       <Navbar />
@@ -8,5 +8,3 @@ function Layout({ children }: { children: JSX.Element }) {
     </>
   );
 }
-
-export default Layout;
