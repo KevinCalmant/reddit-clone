@@ -63,12 +63,12 @@ export default function UserMenu({ user }: UserMenuProps) {
                     <Text color="gray.400">1 karma</Text>
                   </Flex>
                 </Flex>
-                <ChevronDownIcon />
               </>
             ) : (
               <Icon as={VscAccount} color="gray.400" mr={1} fontSize={24} />
             )}
           </Flex>
+          <ChevronDownIcon />
         </Flex>
       </MenuButton>
       <MenuList>

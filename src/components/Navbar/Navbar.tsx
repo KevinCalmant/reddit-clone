@@ -3,14 +3,24 @@ import SearchInput from "@/components/Navbar/SearchInput";
 import RightContent from "@/components/Navbar/RightContent/RightContent";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase/clientApp";
+import Directory from "@/components/Navbar/Directory/Directory";
 
 export default function Navbar() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [user, loading, error] = useAuthState(auth);
 
   return (
-    <Flex bg="white" height="44px" padding="6px 12px">
-      <Flex align="center">
+    <Flex
+      bg="white"
+      height="44px"
+      padding="6px 12px"
+      justify={{ md: "space-between" }}
+    >
+      <Flex
+        align="center"
+        width={{ base: "40px", md: "auto" }}
+        mr={{ base: 0, md: 2 }}
+      >
         <Image src="/images/redditFace.svg" height="30px" />
         <Image
           src="/images/redditText.svg"
@@ -18,8 +28,8 @@ export default function Navbar() {
           display={{ base: "none", md: "unset" }}
         />
       </Flex>
-      {/* <Directory /> */}
-      <SearchInput />
+      {user && <Directory />}
+      <SearchInput user={user} />
       <RightContent user={user} />
     </Flex>
   );
