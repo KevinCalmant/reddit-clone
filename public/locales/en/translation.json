@@ -1,0 +1,15 @@
+{
+  "auth": {
+    "modal": {
+      "signup": {
+        "title": "Sign Up"
+      },
+      "login": {
+        "title": "Log In"
+      },
+      "resetPassword": {
+        "title": "Reset Password"
+      }
+    }
+  }
+}

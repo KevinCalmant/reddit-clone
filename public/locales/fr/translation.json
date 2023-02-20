@@ -1,0 +1,19 @@
+{
+  "auth": {
+    "buttons": {
+      "login": "Se connecter",
+      "signup": "S'inscrire"
+    },
+    "modal": {
+      "signup": {
+        "title": "S'inscrire"
+      },
+      "login": {
+        "title": "Se connecter"
+      },
+      "resetPassword": {
+        "title": "Réinitialiser le mot de passe"
+      }
+    }
+  }
+}

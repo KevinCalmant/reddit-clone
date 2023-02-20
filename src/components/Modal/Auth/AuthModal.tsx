@@ -14,8 +14,11 @@ import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase/clientApp";
 import { useEffect } from "react";
 import ResetPassword from "@/components/Modal/Auth/ResetPassword";
+import { useTranslation } from "react-i18next";
 
 export default function AuthModal() {
+  const { t } = useTranslation();
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [user, loading, error] = useAuthState(auth);
   const [modalState, setModalState] = useRecoilState(authModalState);
@@ -36,9 +39,7 @@ export default function AuthModal() {
       <ModalOverlay />
       <ModalContent>
         <ModalHeader textAlign="center">
-          {modalState.view === "login" && "Login"}
-          {modalState.view === "signup" && "Sign Up"}
-          {modalState.view === "resetPassword" && "Reset Password"}
+          {t(`auth.modal.${modalState.view}.title`)}
         </ModalHeader>
         <ModalCloseButton />
         <ModalBody

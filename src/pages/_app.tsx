@@ -4,6 +4,7 @@ import theme from "@/chakra/theme";
 import { ChakraProvider } from "@chakra-ui/react";
 import Layout from "@/components/Layout/Layout";
 import { RecoilRoot } from "recoil";
+import "./i18n";
 
 function App({ Component, pageProps }: AppProps) {
   return (

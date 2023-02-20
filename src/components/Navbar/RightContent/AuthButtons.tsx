@@ -1,14 +1,24 @@
 import { Button } from "@chakra-ui/react";
 import { useSetRecoilState } from "recoil";
-import { authModalState, AuthModalView } from "@/atoms/authModalState";
+import { authModalState } from "@/atoms/authModalState";
+import { useTranslation } from "react-i18next";
 
 export default function AuthButtons() {
+  const { t } = useTranslation();
+
   const setAuthModalState = useSetRecoilState(authModalState);
 
-  const handleClick = (view: string) => {
+  const handleLogin = () => {
     setAuthModalState({
       open: true,
-      view: view as AuthModalView,
+      view: "login",
+    });
+  };
+
+  const handleSignup = () => {
+    setAuthModalState({
+      open: true,
+      view: "signup",
     });
   };
 
@@ -20,18 +30,18 @@ export default function AuthButtons() {
         display={{ base: "none", sm: "flex" }}
         width={{ base: "70px", md: "110px" }}
         mr={2}
-        onClick={() => handleClick("login")}
+        onClick={() => handleLogin()}
       >
-        Log In
+        {t("auth.buttons.login")}
       </Button>
       <Button
         height="28px"
         display={{ base: "none", sm: "flex" }}
         width={{ base: "70px", md: "110px" }}
         mr={2}
-        onClick={() => handleClick("signup")}
+        onClick={() => handleSignup()}
       >
-        Sign Up
+        {t("auth.buttons.signup")}
       </Button>
     </>
   );
