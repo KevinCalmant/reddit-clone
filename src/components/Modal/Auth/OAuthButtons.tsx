@@ -1,22 +1,33 @@
 import { Button, Flex, Image, Text } from "@chakra-ui/react";
 import { useSignInWithGoogle } from "react-firebase-hooks/auth";
-import { auth } from "@/firebase/clientApp";
+import { auth, firestore } from "@/firebase/clientApp";
 import FIREBASE_ERRORS from "@/firebase/errors";
+import { User } from "@firebase/auth";
+import { doc, setDoc } from "@firebase/firestore";
+import { useEffect } from "react";
 
 export default function OAuthButtons() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
+  const [signInWithGoogle, userCred, loading, error] =
+    useSignInWithGoogle(auth);
 
-  const handleContinueWithGoogle = async () => {
-    await signInWithGoogle();
+  const createUserDocument = async (user: User) => {
+    const userDocRef = doc(firestore, "users", user.uid);
+    await setDoc(userDocRef, user);
   };
+
+  useEffect(() => {
+    if (userCred) {
+      createUserDocument(JSON.parse(JSON.stringify(userCred.user)));
+    }
+  }, [userCred]);
 
   return (
     <Flex direction="column" width="100%" mb={4}>
       <Button
         variant="oauth"
         mb={2}
-        onClick={handleContinueWithGoogle}
+        onClick={() => signInWithGoogle()}
         isLoading={loading}
       >
         <Image mr={4} src="/images/googlelogo.png" height="20px" />

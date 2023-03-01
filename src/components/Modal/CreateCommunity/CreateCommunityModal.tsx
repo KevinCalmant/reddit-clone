@@ -22,7 +22,13 @@ import { ChangeEvent, useState } from "react";
 import { CommunityType } from "@/types/CommunityType";
 import { BsFillEyeFill, BsFillPersonFill } from "react-icons/bs";
 import { HiLockClosed } from "react-icons/hi";
-import { doc, getDoc, setDoc } from "@firebase/firestore";
+import {
+  doc,
+  getDoc,
+  setDoc,
+  runTransaction,
+  Transaction,
+} from "@firebase/firestore";
 import { auth, firestore } from "@/firebase/clientApp";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { serverTimestamp } from "@firebase/database";
@@ -68,15 +74,26 @@ export default function CreateCommunityModal({
     setLoading(true);
     try {
       const communityDocRef = doc(firestore, "communities", communityName);
-      const communityDoc = await getDoc(communityDocRef);
-      if (communityDoc.exists()) {
-        setErrorMessage(`Sorry, r/${communityName} is taken. Try another.`);
-      }
-      await setDoc(communityDocRef, {
-        creatorId: user?.uid,
-        createdAt: serverTimestamp(),
-        numberOfMembers: 1,
-        privacyType: communityType,
+      await runTransaction(firestore, async (transaction: Transaction) => {
+        const communityDoc = await transaction.get(communityDocRef);
+        if (communityDoc.exists()) {
+          setErrorMessage(`Sorry, r/${communityName} is taken. Try another.`);
+        }
+
+        await transaction.set(communityDocRef, {
+          creatorId: user?.uid,
+          createdAt: serverTimestamp(),
+          numberOfMembers: 1,
+          privacyType: communityType,
+        });
+
+        transaction.set(
+          doc(firestore, `users/${user?.uid}/communitySnippets`, communityName),
+          {
+            communityId: communityName,
+            isModerator: true,
+          }
+        );
       });
     } catch (error) {
       setErrorMessage(error.message);

@@ -1,10 +1,12 @@
 import { useSetRecoilState } from "recoil";
 import { authModalState } from "@/atoms/authModalState";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { Button, Flex, Input, Text } from "@chakra-ui/react";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
-import { auth } from "@/firebase/clientApp";
+import { auth, firestore } from "@/firebase/clientApp";
 import FIREBASE_ERRORS from "@/firebase/errors";
+import { User } from "@firebase/auth";
+import { addDoc, collection } from "@firebase/firestore";
 
 export default function SignUp() {
   const setAuthModalState = useSetRecoilState(authModalState);
@@ -16,7 +18,7 @@ export default function SignUp() {
   const [error, setError] = useState("");
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [createUserWithEmailAndPassword, user, loading, userError] =
+  const [createUserWithEmailAndPassword, userCred, loading, userError] =
     useCreateUserWithEmailAndPassword(auth);
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -38,6 +40,19 @@ export default function SignUp() {
       view: "login",
     }));
   };
+
+  const createUserDocument = async (user: User) => {
+    await addDoc(
+      collection(firestore, "users"),
+      JSON.parse(JSON.stringify(user))
+    );
+  };
+
+  useEffect(() => {
+    if (userCred) {
+      createUserDocument(userCred.user);
+    }
+  }, [userCred]);
 
   return (
     <form onSubmit={onSubmit}>
