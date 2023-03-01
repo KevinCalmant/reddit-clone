@@ -1,23 +1,23 @@
 import { useSetRecoilState } from "recoil";
 import { authModalState } from "@/atoms/authModalState";
-import { FormEvent, useRef, useState } from "react";
+import { FormEvent, memo, useState } from "react";
 import { useSendPasswordResetEmail } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase/clientApp";
 import { Button, Flex, Icon, Input, Text } from "@chakra-ui/react";
 import { BsDot, BsReddit } from "react-icons/bs";
 
-export default function ResetPassword() {
+const ResetPassword = memo(() => {
   const setAuthModalState = useSetRecoilState(authModalState);
 
-  const emailInputRef = useRef<HTMLInputElement>(null);
-
+  const [email, setEmail] = useState<string>("");
   const [success, setSuccess] = useState(false);
+
   const [sendPasswordResetEmail, sending, error] =
     useSendPasswordResetEmail(auth);
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    await sendPasswordResetEmail(emailInputRef.current?.value || "");
+    await sendPasswordResetEmail(email);
     setSuccess(true);
   };
 
@@ -55,6 +55,8 @@ export default function ResetPassword() {
               name="email"
               placeholder="email"
               type="email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
               mb={2}
               fontSize="10pt"
               _placeholder={{ color: "gray.500" }}
@@ -100,4 +102,6 @@ export default function ResetPassword() {
       </Flex>
     </Flex>
   );
-}
+});
+
+export default ResetPassword;

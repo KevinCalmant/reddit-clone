@@ -1,6 +1,6 @@
 import { useSetRecoilState } from "recoil";
 import { authModalState } from "@/atoms/authModalState";
-import { FormEvent, useRef, useState } from "react";
+import { FormEvent, useState } from "react";
 import { Button, Flex, Input, Text } from "@chakra-ui/react";
 import { useCreateUserWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase/clientApp";
@@ -9,9 +9,9 @@ import FIREBASE_ERRORS from "@/firebase/errors";
 export default function SignUp() {
   const setAuthModalState = useSetRecoilState(authModalState);
 
-  const emailInputRef = useRef<HTMLInputElement>(null);
-  const passwordInputRef = useRef<HTMLInputElement>(null);
-  const confirmPasswordInputRef = useRef<HTMLInputElement>(null);
+  const [email, setEmail] = useState<string>();
+  const [password, setPassword] = useState<string>();
+  const [confirmPassword, setConfirmPassword] = useState<string>();
 
   const [error, setError] = useState("");
 
@@ -21,10 +21,6 @@ export default function SignUp() {
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    const email = emailInputRef.current?.value;
-    const password = passwordInputRef.current?.value;
-    const confirmPassword = confirmPasswordInputRef.current?.value;
 
     if (error) setError("");
     if (password !== confirmPassword) {
@@ -50,8 +46,9 @@ export default function SignUp() {
         name="email"
         placeholder="Email"
         type="email"
+        value={email}
+        onChange={(event) => setEmail(event.target.value)}
         mb={2}
-        ref={emailInputRef}
         fontSize="10pt"
         _placeholder={{ color: "gray.500" }}
         _hover={{
@@ -71,8 +68,9 @@ export default function SignUp() {
         name="password"
         placeholder="Password"
         type="password"
+        value={password}
+        onChange={(event) => setPassword(event.target.value)}
         mb={2}
-        ref={passwordInputRef}
         fontSize="10pt"
         _placeholder={{ color: "gray.500" }}
         _hover={{
@@ -93,8 +91,9 @@ export default function SignUp() {
         name="confirmPassword"
         placeholder="Confirm password"
         type="password"
+        value={confirmPassword}
+        onChange={(event) => setConfirmPassword(event.target.value)}
         mb={2}
-        ref={confirmPasswordInputRef}
         fontSize="10pt"
         _placeholder={{ color: "gray.500" }}
         _hover={{

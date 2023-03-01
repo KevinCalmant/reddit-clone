@@ -1,4 +1,4 @@
-import { FormEvent, useRef } from "react";
+import { FormEvent, useState } from "react";
 import { Button, Flex, Input, Text } from "@chakra-ui/react";
 import { useSetRecoilState } from "recoil";
 import { authModalState } from "@/atoms/authModalState";
@@ -9,8 +9,8 @@ import FIREBASE_ERRORS from "@/firebase/errors";
 export default function Login() {
   const setAuthModalState = useSetRecoilState(authModalState);
 
-  const emailInputRef = useRef<HTMLInputElement>(null);
-  const passwordInputRef = useRef<HTMLInputElement>(null);
+  const [email, setEmail] = useState<string>();
+  const [password, setPassword] = useState<string>();
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [signInWithEmailAndPassword, user, loading, error] =
@@ -18,10 +18,6 @@ export default function Login() {
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
-    const email = emailInputRef.current?.value;
-    const password = passwordInputRef.current?.value;
-
     if (email && password) {
       await signInWithEmailAndPassword(email, password);
     }
@@ -48,8 +44,9 @@ export default function Login() {
         name="email"
         placeholder="Email"
         type="email"
+        value={email}
+        onChange={(event) => setEmail(event.target.value)}
         mb={2}
-        ref={emailInputRef}
         fontSize="10pt"
         _placeholder={{ color: "gray.500" }}
         _hover={{
@@ -69,8 +66,9 @@ export default function Login() {
         name="password"
         placeholder="Password"
         type="password"
+        value={password}
+        onChange={(event) => setPassword(event.target.value)}
         mb={2}
-        ref={passwordInputRef}
         fontSize="10pt"
         _placeholder={{ color: "gray.500" }}
         _hover={{

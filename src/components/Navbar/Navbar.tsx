@@ -4,8 +4,9 @@ import RightContent from "@/components/Navbar/RightContent/RightContent";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase/clientApp";
 import Directory from "@/components/Navbar/Directory/Directory";
+import { memo } from "react";
 
-export default function Navbar() {
+const Navbar = memo(() => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [user, loading, error] = useAuthState(auth);
 
@@ -33,4 +34,6 @@ export default function Navbar() {
       <RightContent user={user} />
     </Flex>
   );
-}
+});
+
+export default Navbar;

@@ -1,8 +1,9 @@
 import { Button } from "@chakra-ui/react";
 import { useSetRecoilState } from "recoil";
 import { authModalState, AuthModalView } from "@/atoms/authModalState";
+import { memo } from "react";
 
-export default function AuthButtons() {
+const AuthButtons = memo(() => {
   const setAuthModalState = useSetRecoilState(authModalState);
 
   const handleClick = (view: string) => {
@@ -35,4 +36,6 @@ export default function AuthButtons() {
       </Button>
     </>
   );
-}
+});
+
+export default AuthButtons;
