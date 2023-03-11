@@ -22,13 +22,7 @@ import { ChangeEvent, useState } from "react";
 import { CommunityType } from "@/types/CommunityType";
 import { BsFillEyeFill, BsFillPersonFill } from "react-icons/bs";
 import { HiLockClosed } from "react-icons/hi";
-import {
-  doc,
-  getDoc,
-  setDoc,
-  runTransaction,
-  Transaction,
-} from "@firebase/firestore";
+import { doc, runTransaction, Transaction } from "@firebase/firestore";
 import { auth, firestore } from "@/firebase/clientApp";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { serverTimestamp } from "@firebase/database";

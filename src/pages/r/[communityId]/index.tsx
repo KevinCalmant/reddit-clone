@@ -6,6 +6,7 @@ import safeJsonStringify from "safe-json-stringify";
 import CommunityNotFound from "@/components/Community/CommunityNotFound";
 import CommunityHeader from "@/components/Community/CommunityHeader";
 import PageContent from "@/components/Layout/PageContent";
+import CreatePostLink from "@/components/Community/CreatePostLink";
 
 type CommunityPageProps = {
   communityData: Community;
@@ -19,7 +20,7 @@ export default function CommunityPage({ communityData }: CommunityPageProps) {
     <>
       <CommunityHeader communityData={communityData} />
       <PageContent>
-        <div>LHS</div>
+        <CreatePostLink />
         <div>RHS</div>
       </PageContent>
     </>
