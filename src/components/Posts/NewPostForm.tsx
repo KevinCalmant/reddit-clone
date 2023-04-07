@@ -10,7 +10,6 @@ import TextInputs from "@/components/Posts/PostForm/TextInputs";
 import ImageUpload from "@/components/Posts/PostForm/ImageUpload";
 import { Post } from "@/atoms/postState";
 import { User } from "@firebase/auth";
-import { serverTimestamp } from "@firebase/database";
 import { addDoc, collection, Timestamp, updateDoc } from "@firebase/firestore";
 import { firestore, storage } from "@/firebase/clientApp";
 import { getDownloadURL, ref, uploadString } from "@firebase/storage";
@@ -64,7 +63,7 @@ export default function NewPostForm({ user }: NewPostFormProps) {
         body: textInputs.body,
         numberOfComments: 0,
         voteStatus: 0,
-        createdAt: serverTimestamp() as Timestamp,
+        createdAt: Timestamp.now(),
       };
       const postDocRef = await addDoc(collection(firestore, "posts"), post);
       if (selectedFile) {
