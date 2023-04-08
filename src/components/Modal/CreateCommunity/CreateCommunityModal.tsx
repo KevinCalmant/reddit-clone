@@ -22,10 +22,14 @@ import { ChangeEvent, useState } from "react";
 import { CommunityType } from "@/types/CommunityType";
 import { BsFillEyeFill, BsFillPersonFill } from "react-icons/bs";
 import { HiLockClosed } from "react-icons/hi";
-import { doc, runTransaction, Transaction } from "@firebase/firestore";
+import {
+  doc,
+  runTransaction,
+  Timestamp,
+  Transaction,
+} from "@firebase/firestore";
 import { auth, firestore } from "@/firebase/clientApp";
 import { useAuthState } from "react-firebase-hooks/auth";
-import { serverTimestamp } from "@firebase/database";
 
 type CreateCommunityModalProps = {
   open: boolean;
@@ -76,7 +80,7 @@ export default function CreateCommunityModal({
 
         await transaction.set(communityDocRef, {
           creatorId: user?.uid,
-          createdAt: serverTimestamp(),
+          createdAt: Timestamp.now(),
           numberOfMembers: 1,
           privacyType: communityType,
         });
