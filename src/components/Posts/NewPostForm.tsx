@@ -14,6 +14,7 @@ import { addDoc, collection, Timestamp, updateDoc } from "@firebase/firestore";
 import { firestore, storage } from "@/firebase/clientApp";
 import { getDownloadURL, ref, uploadString } from "@firebase/storage";
 import { useRouter } from "next/router";
+import useSelectFile from "@/hooks/useSelectFile";
 
 const formTabs: TabItem[] = [
   {
@@ -47,9 +48,10 @@ export default function NewPostForm({ user }: NewPostFormProps) {
     title: "",
     body: "",
   });
-  const [selectedFile, setSelectedFile] = useState<string>();
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+
+  const { selectedFile, setSelectedFile, onSelectedImage } = useSelectFile();
 
   const handleCreatepost = async () => {
     try {
@@ -80,16 +82,6 @@ export default function NewPostForm({ user }: NewPostFormProps) {
     } finally {
       setLoading(false);
     }
-  };
-
-  const onSelectedImage = (event: ChangeEvent<HTMLInputElement>) => {
-    const reader = new FileReader();
-    if (event.target.files?.[0]) {
-      reader.readAsDataURL(event.target.files[0]);
-    }
-    reader.onload = (readerEvent: ProgressEvent<FileReader>) => {
-      setSelectedFile(readerEvent.target?.result as string);
-    };
   };
 
   const onTextChange = (
