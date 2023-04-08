@@ -48,6 +48,7 @@ export default function Posts({ communityData }: PostsProps) {
       }));
       setLoading(false);
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.log("getPosts error", error.message);
     }
   };
