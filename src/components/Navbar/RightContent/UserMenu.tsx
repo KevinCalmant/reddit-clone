@@ -14,16 +14,14 @@ import { MdOutlineLogin } from "react-icons/md";
 import { VscAccount } from "react-icons/vsc";
 import { Flex, Icon, Text } from "@chakra-ui/react";
 import { auth } from "@/firebase/clientApp";
-import { useResetRecoilState, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { authModalState } from "@/atoms/authModalState";
-import { communityState } from "@/atoms/communitiesState";
 
 type UserMenuProps = {
   user: User | null | undefined;
 };
 
 export default function UserMenu({ user }: UserMenuProps) {
-  const resetCommunityState = useResetRecoilState(communityState);
   const setAuthModalState = useSetRecoilState(authModalState);
 
   const handleLoginSignUp = () => {
@@ -34,7 +32,6 @@ export default function UserMenu({ user }: UserMenuProps) {
   };
 
   const logout = async () => {
-    resetCommunityState();
     await signOut(auth);
   };
 
