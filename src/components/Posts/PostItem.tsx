@@ -22,6 +22,7 @@ import {
 } from "@chakra-ui/react";
 import moment from "moment";
 import { useState } from "react";
+import { useRouter } from "next/router";
 
 type PostItemProps = {
   post: Post;
@@ -29,7 +30,7 @@ type PostItemProps = {
   userVoteValue?: number;
   onVote: (post: Post, vote: number, communityId: string) => Promise<void>;
   onDeletePost: (post: Post) => Promise<boolean>;
-  onSelectPost: () => void;
+  onSelectPost?: (post: Post) => Promise<void>;
 };
 
 export default function PostItem({
@@ -40,18 +41,24 @@ export default function PostItem({
   onDeletePost,
   onSelectPost,
 }: PostItemProps) {
+  const router = useRouter();
   const [loadingImage, setLoadingImage] = useState(true);
   const [loadingDelete, setLoadingDelete] = useState(false);
   const [error, setError] = useState("");
+  const singlePostPage = !onSelectPost;
 
-  const handleDelete = async () => {
+  const handleDelete = async (e: MouseEvent) => {
     try {
+      e.stopPropagation();
       setLoadingDelete(true);
       const success = await onDeletePost(post);
       if (!success) {
         throw new Error("Failed to delete post");
       }
       setLoadingDelete(false);
+      if (singlePostPage) {
+        await router.push(`/r/${post.communityId}`);
+      }
     } catch (err) {
       setError(err.message);
     }
@@ -66,23 +73,29 @@ export default function PostItem({
     }
   };
 
+  const handleOnPostClick = async () => {
+    if (onSelectPost) {
+      await onSelectPost(post);
+    }
+  };
+
   return (
     <Flex
       border="1px solid"
-      borderColor="gray.300"
       bg="white"
-      borderRadius={4}
-      cursor="pointer"
-      _hover={{ borderColor: "gray.500" }}
-      onClick={onSelectPost}
+      cursor={singlePostPage ? "unset" : "pointer"}
+      borderColor={singlePostPage ? "white" : "gray.300"}
+      borderRadius={singlePostPage ? "4px 4px 0px 0px" : "4px"}
+      _hover={{ borderColor: singlePostPage ? "none" : "gray.500" }}
+      onClick={handleOnPostClick}
     >
       <Flex
         direction="column"
         align="center"
-        bg="gray.100"
         p={2}
         width="40px"
-        borderRadius={4}
+        bg={singlePostPage ? "none" : "gray.100"}
+        borderRadius={singlePostPage ? "0" : "3px 0px 0px 3px"}
       >
         <Icon
           as={
@@ -176,7 +189,7 @@ export default function PostItem({
               borderRadius={4}
               cursor="pointer"
               _hover={{ bg: "gray.200" }}
-              onClick={handleDelete}
+              onClick={(e) => handleDelete(e)}
             >
               {loadingDelete ? (
                 <Spinner size="sm" />

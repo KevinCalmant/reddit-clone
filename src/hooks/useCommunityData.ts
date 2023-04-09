@@ -10,13 +10,16 @@ import { auth, firestore } from "@/firebase/clientApp";
 import {
   collection,
   doc,
+  getDoc,
   getDocs,
   increment,
   writeBatch,
 } from "@firebase/firestore";
 import { authModalState } from "@/atoms/authModalState";
+import { useRouter } from "next/router";
 
 const useCommunityData = () => {
+  const router = useRouter();
   const [user] = useAuthState(auth);
   const setAuthModalState = useSetRecoilState(authModalState);
   const [communityStateValue, setCommunityStateValue] =
@@ -113,6 +116,21 @@ const useCommunityData = () => {
     }
   };
 
+  const getCommunityData = async (communityId: string) => {
+    try {
+      const communityDoc = await getDoc(
+        doc(firestore, "communities", communityId)
+      );
+      const community = communityDoc.data() as Community;
+      setCommunityStateValue({
+        ...communityStateValue,
+        currentCommunity: community,
+      });
+    } catch (error) {
+      setErrorMessage(error.message);
+    }
+  };
+
   useEffect(() => {
     if (!user) {
       setCommunityStateValue((prev) => ({
@@ -123,6 +141,13 @@ const useCommunityData = () => {
     }
     getMySnippets();
   }, [user]);
+
+  useEffect(() => {
+    const { communityId } = router.query;
+    if (communityId && !communityStateValue.currentCommunity) {
+      getCommunityData(communityId as string);
+    }
+  }, [router.query, communityStateValue.currentCommunity]);
 
   return {
     communityStateValue,
