@@ -121,7 +121,10 @@ const useCommunityData = () => {
       const communityDoc = await getDoc(
         doc(firestore, "communities", communityId)
       );
-      const community = communityDoc.data() as Community;
+      const community = {
+        id: communityDoc.id,
+        ...communityDoc.data(),
+      } as Community;
       setCommunityStateValue({
         ...communityStateValue,
         currentCommunity: community,
