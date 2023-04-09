@@ -67,6 +67,11 @@ export default function Posts({ communityData }: PostsProps) {
           key={post.id}
           post={post}
           userIsCreator={user?.uid === post.creatorId}
+          userVoteValue={
+            postStateValue.postVotes.find(
+              (postVote) => postVote.postId === post.id
+            )?.voteValue
+          }
           onVote={onVote}
           onDeletePost={onDeletePost}
           onSelectPost={onSelectPost}

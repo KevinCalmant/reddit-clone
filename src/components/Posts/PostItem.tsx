@@ -27,7 +27,7 @@ type PostItemProps = {
   post: Post;
   userIsCreator: boolean;
   userVoteValue?: number;
-  onVote: () => void;
+  onVote: (post: Post, vote: number, communityId: string) => Promise<void>;
   onDeletePost: (post: Post) => Promise<boolean>;
   onSelectPost: () => void;
 };
@@ -43,6 +43,7 @@ export default function PostItem({
   const [loadingImage, setLoadingImage] = useState(true);
   const [loadingDelete, setLoadingDelete] = useState(false);
   const [error, setError] = useState("");
+
   const handleDelete = async () => {
     try {
       setLoadingDelete(true);
@@ -51,6 +52,15 @@ export default function PostItem({
         throw new Error("Failed to delete post");
       }
       setLoadingDelete(false);
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+  const handleOnVoteClick = async (event: MouseEvent, vote: number) => {
+    event.stopPropagation();
+    try {
+      await onVote(post, vote, post.communityId);
     } catch (err) {
       setError(err.message);
     }
@@ -80,7 +90,7 @@ export default function PostItem({
           }
           color={userVoteValue === 1 ? "brand.100" : "gray.500"}
           fontSize={22}
-          onClick={onVote}
+          onClick={(e) => handleOnVoteClick(e, 1)}
           cursor="pointer"
         />
         <Text fontSize="9pt">{post.voteStatus}</Text>
@@ -90,9 +100,9 @@ export default function PostItem({
               ? IoArrowDownCircleSharp
               : IoArrowDownCircleOutline
           }
-          color={userVoteValue === 1 ? "#4379ff" : "gray.500"}
+          color={userVoteValue === -1 ? "#4379ff" : "gray.500"}
           fontSize={22}
-          onClick={onVote}
+          onClick={(e) => handleOnVoteClick(e, -1)}
           cursor="pointer"
         />
       </Flex>
