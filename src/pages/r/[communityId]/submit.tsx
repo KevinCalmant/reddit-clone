@@ -4,12 +4,11 @@ import NewPostForm from "@/components/Posts/NewPostForm";
 import CommunityAbout from "@/components/Community/CommunityAbout";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase/clientApp";
-import { communityState } from "@/atoms/communitiesState";
-import { useRecoilValue } from "recoil";
+import useCommunityData from "@/hooks/useCommunityData";
 
 export default function SubmitCommunityPostPage() {
   const [user] = useAuthState(auth);
-  const { currentCommunity } = useRecoilValue(communityState);
+  const { communityStateValue } = useCommunityData();
 
   return (
     <PageContent>
@@ -21,8 +20,10 @@ export default function SubmitCommunityPostPage() {
       </>
       {/* eslint-disable-next-line react/jsx-no-useless-fragment */}
       <>
-        {currentCommunity && (
-          <CommunityAbout communityData={currentCommunity} />
+        {communityStateValue.currentCommunity && (
+          <CommunityAbout
+            communityData={communityStateValue.currentCommunity}
+          />
         )}
       </>
     </PageContent>
