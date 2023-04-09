@@ -9,6 +9,7 @@ import { doc, getDoc } from "@firebase/firestore";
 import { Post } from "@/atoms/postState";
 import CommunityAbout from "@/components/Community/CommunityAbout";
 import useCommunityData from "@/hooks/useCommunityData";
+import PostComments from "@/components/Posts/PostComments/PostComments";
 
 export default function PostPage() {
   const router = useRouter();
@@ -55,6 +56,15 @@ export default function PostPage() {
             onDeletePost={onDeletePost}
           />
         )}
+        {user &&
+          postStateValue.selectedPost &&
+          communityStateValue.currentCommunity?.id && (
+            <PostComments
+              user={user}
+              selectedPost={postStateValue.selectedPost}
+              communityId={communityStateValue.currentCommunity?.id}
+            />
+          )}
       </>
       <>
         {communityStateValue.currentCommunity && (
