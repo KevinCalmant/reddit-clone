@@ -21,7 +21,10 @@ export default function PostPage() {
   const fetchPost = async (postId: string) => {
     try {
       const postDoc = await getDoc(doc(firestore, "posts", postId));
-      const post = postDoc.data() as Post;
+      const post = {
+        id: postDoc.id,
+        ...postDoc.data(),
+      } as Post;
       setPostStateValue((prev) => ({
         ...prev,
         selectedPost: post,
