@@ -40,7 +40,7 @@ const useDirectory = () => {
           label: `r/${currentCommunity.id}`,
           link: `/r/${currentCommunity.id}`,
           icon: FaReddit,
-          iconColor: "blue.500",
+          iconColor: "brand.100",
           imageURL: currentCommunity?.imageUrl,
         },
       }));

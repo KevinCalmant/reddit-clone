@@ -146,7 +146,12 @@ export default function PostItem({
                     mr={2}
                   />
                 ) : (
-                  <Icon as={FaReddit} fontSize="18pt" mr={1} color="blue.500" />
+                  <Icon
+                    as={FaReddit}
+                    fontSize="18pt"
+                    mr={1}
+                    color="brand.100"
+                  />
                 )}
                 <Link href={`r/${post.communityId}`}>
                   <Text

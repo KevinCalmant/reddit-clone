@@ -28,7 +28,7 @@ export default function Communities() {
             label={`r/${snippet.communityId}`}
             link={`/r/${snippet.communityId}`}
             icon={FaReddit}
-            iconColor="blue.500"
+            iconColor="brand.100"
             imageURL={snippet.imageUrl}
           />
         ))}
@@ -56,7 +56,7 @@ export default function Communities() {
           label={`r/${snippet.communityId}`}
           link={`/r/${snippet.communityId}`}
           icon={FaReddit}
-          iconColor="blue.500"
+          iconColor="brand.100"
           imageURL={snippet.imageUrl}
         />
       ))}

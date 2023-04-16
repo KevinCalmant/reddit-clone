@@ -16,6 +16,9 @@ import PostLoader from "@/components/Posts/PostLoader";
 import { Stack } from "@chakra-ui/react";
 import PostItem from "@/components/Posts/PostItem";
 import useCommunityData from "@/hooks/useCommunityData";
+import CommunityRecommendations from "@/components/Community/CommunityRecommendations";
+import CommunityPremium from "@/components/Community/CommunityPremium";
+import CommunityPersonalHome from "@/components/Community/CommunityPersonalHome";
 
 export default function Home() {
   const [user, loadingUser] = useAuthState(auth);
@@ -150,7 +153,11 @@ export default function Home() {
           </Stack>
         )}
       </>
-      <div>RHS</div>
+      <Stack spacing={5}>
+        <CommunityRecommendations />
+        <CommunityPremium />
+        <CommunityPersonalHome />
+      </Stack>
     </PageContent>
   );
 }
