@@ -3,12 +3,18 @@ import SearchInput from "@/components/Navbar/SearchInput";
 import RightContent from "@/components/Navbar/RightContent/RightContent";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/firebase/clientApp";
-import Directory from "@/components/Navbar/Directory/Directory";
+import DirectoryMenu from "@/components/Navbar/Directory/DirectoryMenu";
 import { memo } from "react";
+import useDirectory from "@/hooks/useDirectory";
+import { defaultMenuItem } from "@/atoms/directoryMenuState";
 
 const Navbar = memo(() => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [user, loading, error] = useAuthState(auth);
+  const [user] = useAuthState(auth);
+  const { onSelectMenuItem } = useDirectory();
+
+  const handleLogoClick = () => {
+    onSelectMenuItem(defaultMenuItem);
+  };
 
   return (
     <Flex
@@ -21,6 +27,7 @@ const Navbar = memo(() => {
         align="center"
         width={{ base: "40px", md: "auto" }}
         mr={{ base: 0, md: 2 }}
+        onClick={handleLogoClick}
       >
         <Image src="/images/redditFace.svg" height="30px" />
         <Image
@@ -29,7 +36,7 @@ const Navbar = memo(() => {
           display={{ base: "none", md: "unset" }}
         />
       </Flex>
-      {user && <Directory />}
+      {user && <DirectoryMenu />}
       <SearchInput user={user} />
       <RightContent user={user} />
     </Flex>

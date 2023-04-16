@@ -34,7 +34,7 @@ const defaultPostState: PostState = {
   postVotes: [],
 };
 
-export const postState = atom({
+export const postState = atom<PostState>({
   key: "postState",
   default: defaultPostState,
 });

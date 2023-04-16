@@ -55,7 +55,7 @@ export default function Posts({ communityData }: PostsProps) {
 
   useEffect(() => {
     getPosts();
-  }, []);
+  }, [communityData]);
 
   if (loading) {
     return <PostLoader />;

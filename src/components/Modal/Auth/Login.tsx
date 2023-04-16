@@ -12,8 +12,8 @@ export default function Login() {
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [signInWithEmailAndPassword, user, loading, error] =
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  const [signInWithEmailAndPassword, userCredential, loading, error] =
     useSignInWithEmailAndPassword(auth);
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {

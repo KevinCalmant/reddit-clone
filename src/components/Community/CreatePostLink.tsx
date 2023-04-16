@@ -7,11 +7,13 @@ import { auth } from "@/firebase/clientApp";
 import { useSetRecoilState } from "recoil";
 import { authModalState } from "@/atoms/authModalState";
 import { useRouter } from "next/router";
+import useDirectory from "@/hooks/useDirectory";
 
 export default function CreatePostLink() {
   const user = useAuthState(auth);
   const setAuthModalState = useSetRecoilState(authModalState);
   const router = useRouter();
+  const { toggleMenu } = useDirectory();
 
   const handleClick = async () => {
     if (!user) {
@@ -22,7 +24,11 @@ export default function CreatePostLink() {
       return;
     }
     const { communityId } = router.query;
-    await router.push(`/r/${communityId}/submit`);
+    if (communityId) {
+      await router.push(`/r/${communityId}/submit`);
+      return;
+    }
+    toggleMenu();
   };
 
   return (

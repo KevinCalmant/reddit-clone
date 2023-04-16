@@ -37,7 +37,7 @@ export default function PostComments({
   selectedPost,
   communityId,
 }: PostCommentsProps) {
-  const [comment, setComment] = useState("");
+  const [commentValue, setCommentValue] = useState("");
   const [comments, setComments] = useState<Comment[]>([]);
   const [fetchLoading, setFetchLoading] = useState(true);
   const [createLoading, setCreateLoading] = useState(false);
@@ -56,7 +56,7 @@ export default function PostComments({
         communityId,
         postId: selectedPost.id,
         postTitle: selectedPost.title,
-        text: comment,
+        text: commentValue,
         createdAt: Timestamp.now(),
       };
       batch.set(commentDocRef, newComment);
@@ -67,14 +67,14 @@ export default function PostComments({
       });
       await batch.commit();
 
-      setComment("");
+      setCommentValue("");
       setComments((prev) => [newComment, ...prev]);
 
       setPostState((prev) => ({
         ...prev,
         selectedPost: {
           ...prev.selectedPost,
-          numberOfComments: prev.selectedPost!.numberOfComments + 1,
+          numberOfComments: (prev.selectedPost?.numberOfComments || 0) + 1,
         } as Post,
       }));
     } catch (error) {
@@ -136,10 +136,10 @@ export default function PostComments({
       >
         {!fetchLoading && (
           <PostCommentInput
-            comment={comment}
+            comment={commentValue}
             user={user}
             loading={createLoading}
-            setComment={setComment}
+            setComment={setCommentValue}
             onCreateComment={handleOnCreateComment}
           />
         )}
@@ -155,6 +155,7 @@ export default function PostComments({
             ))}
           </>
         ) : (
+          // eslint-disable-next-line react/jsx-no-useless-fragment
           <>
             {comments.length === 0 ? (
               <Flex

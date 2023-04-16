@@ -14,10 +14,7 @@ export default function SignUp() {
   const [email, setEmail] = useState<string>();
   const [password, setPassword] = useState<string>();
   const [confirmPassword, setConfirmPassword] = useState<string>();
-
   const [error, setError] = useState("");
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [createUserWithEmailAndPassword, userCred, loading, userError] =
     useCreateUserWithEmailAndPassword(auth);
 

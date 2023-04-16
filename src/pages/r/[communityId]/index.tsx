@@ -20,17 +20,16 @@ export default function CommunityPage({ communityData }: CommunityPageProps) {
   const [communityStateValue, setCommunityStateValue] =
     useRecoilState(communityState);
 
-  if (!communityData) {
-    return <CommunityNotFound />;
-  }
-
   useEffect(() => {
     setCommunityStateValue({
       ...communityStateValue,
       currentCommunity: communityData,
     });
-  }, []);
+  }, [communityData]);
 
+  if (!communityData) {
+    return <CommunityNotFound />;
+  }
   return (
     <>
       <CommunityHeader communityData={communityData} />
