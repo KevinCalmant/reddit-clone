@@ -1,6 +1,6 @@
 import { Post } from "@/atoms/postState";
 import { AiOutlineDelete } from "react-icons/ai";
-import { BsChat } from "react-icons/bs";
+import { BsChat, BsDot } from "react-icons/bs";
 import {
   IoArrowDownCircleSharp,
   IoArrowRedoOutline,
@@ -23,6 +23,8 @@ import {
 import moment from "moment";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import { FaReddit } from "react-icons/fa";
+import Link from "next/link";
 
 type PostItemProps = {
   post: Post;
@@ -31,6 +33,7 @@ type PostItemProps = {
   onVote: (post: Post, vote: number, communityId: string) => Promise<void>;
   onDeletePost: (post: Post) => Promise<boolean>;
   onSelectPost?: (post: Post) => Promise<void>;
+  homePage?: boolean;
 };
 
 export default function PostItem({
@@ -40,6 +43,7 @@ export default function PostItem({
   onVote,
   onDeletePost,
   onSelectPost,
+  homePage,
 }: PostItemProps) {
   const router = useRouter();
   const [loadingImage, setLoadingImage] = useState(true);
@@ -77,6 +81,10 @@ export default function PostItem({
     if (onSelectPost) {
       await onSelectPost(post);
     }
+  };
+
+  const handleCommunityClick = (e: MouseEvent) => {
+    e.stopPropagation();
   };
 
   return (
@@ -128,6 +136,28 @@ export default function PostItem({
         )}
         <Stack spacing={1} padding="10px">
           <Stack direction="row" spacing={0.6} align="center" fontSize="9pt">
+            {homePage && (
+              <>
+                {post.communityImageUrl ? (
+                  <Image
+                    src={post.communityImageUrl}
+                    borderRadius="full"
+                    boxSize="18px"
+                    mr={2}
+                  />
+                ) : (
+                  <Icon as={FaReddit} fontSize="18pt" mr={1} color="blue.500" />
+                )}
+                <Link href={`r/${post.communityId}`}>
+                  <Text
+                    fontWeight={700}
+                    _hover={{ textDecoration: "underline" }}
+                    onClick={handleCommunityClick}
+                  >{`r/${post.communityId}`}</Text>
+                </Link>
+                <Icon as={BsDot} color="gray.500" fontSize={8} />
+              </>
+            )}
             <Text>
               Posted by u/{post.creatorDisplayName}{" "}
               {moment(post.createdAt.seconds * 1000).fromNow()}

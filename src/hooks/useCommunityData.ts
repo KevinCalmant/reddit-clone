@@ -141,7 +141,6 @@ const useCommunityData = () => {
         ...prev,
         mySnippets: [],
       }));
-      return;
     }
     getMySnippets();
   }, [user]);

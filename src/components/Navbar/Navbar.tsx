@@ -7,9 +7,11 @@ import DirectoryMenu from "@/components/Navbar/Directory/DirectoryMenu";
 import { memo } from "react";
 import useDirectory from "@/hooks/useDirectory";
 import { defaultMenuItem } from "@/atoms/directoryMenuState";
+import useCommunityData from "@/hooks/useCommunityData";
 
 const Navbar = memo(() => {
   const [user] = useAuthState(auth);
+  useCommunityData();
   const { onSelectMenuItem } = useDirectory();
 
   const handleLogoClick = () => {
@@ -27,6 +29,7 @@ const Navbar = memo(() => {
         align="center"
         width={{ base: "40px", md: "auto" }}
         mr={{ base: 0, md: 2 }}
+        cursor="pointer"
         onClick={handleLogoClick}
       >
         <Image src="/images/redditFace.svg" height="30px" />

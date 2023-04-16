@@ -16,7 +16,12 @@ export default function SubmitCommunityPostPage() {
         <Box p="14px 0px" borderBottom="1px solid white">
           <Text>Create a post</Text>
         </Box>
-        {user && <NewPostForm user={user} />}
+        {user && (
+          <NewPostForm
+            user={user}
+            communityImageUrl={communityStateValue.currentCommunity?.imageUrl}
+          />
+        )}
       </>
       {/* eslint-disable-next-line react/jsx-no-useless-fragment */}
       <>

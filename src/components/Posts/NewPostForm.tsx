@@ -37,9 +37,13 @@ const formTabs: TabItem[] = [
 
 type NewPostFormProps = {
   user: User;
+  communityImageUrl?: string;
 };
 
-export default function NewPostForm({ user }: NewPostFormProps) {
+export default function NewPostForm({
+  user,
+  communityImageUrl,
+}: NewPostFormProps) {
   const router = useRouter();
   const [selectedTab, setSelectedTab] = useState<TabItemTitle>(
     formTabs[0].title
@@ -66,6 +70,7 @@ export default function NewPostForm({ user }: NewPostFormProps) {
         numberOfComments: 0,
         voteStatus: 0,
         createdAt: Timestamp.now(),
+        communityImageUrl: communityImageUrl || "",
       };
       const postDocRef = await addDoc(collection(firestore, "posts"), post);
       if (selectedFile) {
