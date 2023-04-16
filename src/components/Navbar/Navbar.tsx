@@ -7,11 +7,9 @@ import DirectoryMenu from "@/components/Navbar/Directory/DirectoryMenu";
 import { memo } from "react";
 import useDirectory from "@/hooks/useDirectory";
 import { defaultMenuItem } from "@/atoms/directoryMenuState";
-import useCommunityData from "@/hooks/useCommunityData";
 
 const Navbar = memo(() => {
   const [user] = useAuthState(auth);
-  useCommunityData();
   const { onSelectMenuItem } = useDirectory();
 
   const handleLogoClick = () => {
